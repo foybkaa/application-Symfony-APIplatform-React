@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Invoice;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\Common\Collections\Collection;
@@ -16,8 +17,11 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
  * @ApiResource(
- *  collectionOperations={"GET", "POST"},
- *  itemOperations={"GET", "PUT", "DELETE"},
+ *  collectionOperations={"get", "post"},
+ *  itemOperations={"get", "put", "delete"},
+ * subresourceOperations={
+ *      "invoices_get_subresource"={"path"="/customers/{id}/invoices"}     
+ * },
  *  normalizationContext={
  *      "groups"={"customers_read"}
  * }

@@ -2,15 +2,15 @@
 
 namespace App\Doctrine ;
 
+use App\Entity\User;
+use App\Entity\Invoice;
+use App\Entity\Customer;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Core\Security;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryItemExtensionInterface;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
-use App\Entity\Customer;
-use App\Entity\Invoice;
-use App\Entity\User;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
 
 class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface {
 
@@ -28,7 +28,7 @@ class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryIt
         $user = $this->security->getUser();
 
         if(
-            $resourceClass === Customer::class || $resourceClass === Invoice::class 
+           ( $resourceClass === Customer::class || $resourceClass === Invoice::class )
             && 
             !$this->auth->isGranted('ROLE_ADMIN') 
             && 
