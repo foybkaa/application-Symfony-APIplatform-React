@@ -31,7 +31,6 @@ const fetchInvoices = async () => {
     try {
         const data = await InvoicesAPI.findAll();
            setInvoices(data);
-           console.log("delete ok");
         }catch(error) {
             console.log(error.response);
         }
@@ -145,10 +144,6 @@ const paginatedInvoices = Pagination.getData(
         length={filteredInvoices.length} 
         onPageChanged={handlePageChange} 
         />
-
-        />
-
-
         </>
      );
 }
