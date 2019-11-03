@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import Field from './../components/forms/Field';
 import { Link } from "react-router-dom";
 import CustomersAPI from "../services/CustomersAPI";
+import { toast } from 'react-toastify';
+import TableLoader from '../components/loaders/TableLoader';
 
 
 const CustomerPage = ({match, history}) => {
@@ -24,19 +26,23 @@ const CustomerPage = ({match, history}) => {
     });
 
     const [editing, setEditing] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     // Recupération du customer en fonction de l'identifiant
     const fetchCustomer = async id => {
         try{
             const { firstName, lastName, email, company } = await CustomersAPI.find(id);
             setCustomer({ firstName, lastName, email, company});
+            setLoading(false);
         }catch (error){
+            toast.error("Le client n'a pas pu être chargé");
             history.replace("/customers");   
         }
     };
     // Chargement du customer si besoin au chargement du composant ou au changement de l'identifiant
     useEffect(() => {
         if(id !== "new"){
+            setLoading(true);
             setEditing(true);
             fetchCustomer(id);
         }
@@ -56,12 +62,15 @@ const CustomerPage = ({match, history}) => {
 
         try{
             if(editing){
+                setErrors({});
                 await CustomersAPI.update(id, customer);
+                toast.success("La modification a bien été prise en compte")
             }else{
                 await CustomersAPI.create(customer);
+                toast.success("Le client a bieb été créé !")
                 history.replace("/customers");
         }
-            setErrors({});
+            
           } catch({response}){ 
               const {violations} = response.data;
 
@@ -71,13 +80,15 @@ const CustomerPage = ({match, history}) => {
                 apiErrors[propertyPath] = message;
                  });
                 setErrors(apiErrors);
+                toast.error("Des erreurs dans votre formulaire !")
               }
           }
     };
 
     return ( 
         <>
-        <div className="container">
+    {loading && <TableLoader />}
+       {!loading && ( <div className="container">
         <section className="col-md-7 bg-light shadow rounded container my-5 sectionForm">
         {!editing && <h2 className="py-4 px-5 text-center titreForm">Création d'un client</h2> || <h2 className="py-4 px-5 text-center titreForm">Modification du client</h2> }
          <form onSubmit={handleSubmit}>
@@ -118,7 +129,7 @@ const CustomerPage = ({match, history}) => {
          </form>
          </section>
         </div>
-
+       )}
 
     </> );
 }

@@ -4,6 +4,8 @@ import Select from '../components/forms/Select';
 import { Link } from "react-router-dom";
 import CustomersAPI from "../services/CustomersAPI";
 import InvoicesAPI from "../services/InvoicesAPI";
+import { toast } from 'react-toastify';
+import TableLoader from '../components/loaders/TableLoader';
 
 
 const InvoicePage = ({history, match}) => {
@@ -23,14 +25,17 @@ const InvoicePage = ({history, match}) => {
         customer: "",
         status: ""
     });
+    const [loading, setLoading] = useState(true);
 
     // Recupération des clients
     const fetchCustomers = async () => {
         try {
             const data = await CustomersAPI.findAll();
             setCustomers(data);
+            setLoading(false);
             if(!invoice.customer) setInvoice({ ...invoice, customer: data[0].id });
         } catch(error) {
+            toast.error("Impossible de charger les clients");
             history.replace('/customers');
         }
     }
@@ -40,7 +45,9 @@ const InvoicePage = ({history, match}) => {
         try {
             const { amount, status, customer } = await InvoicesAPI.find(id);
             setInvoice({amount, status, customer: customer.id});
+            setLoading(false);
         } catch(error) {
+            toast.error("Impossible de charger la facture demandée");
             history.replace('/invoices');
         }
     };
@@ -71,8 +78,10 @@ const InvoicePage = ({history, match}) => {
 
             if(editing){
                 await InvoicesAPI.update(id, invoice);
+                toast.success("Modification réussi !")
             }else{
                 await InvoicesAPI.create(invoice);
+                toast.success("Création de votre facture réussi !");
             history.replace("/invoices");
             }
         } catch({response}){ 
@@ -84,13 +93,15 @@ const InvoicePage = ({history, match}) => {
               apiErrors[propertyPath] = message;
                });
               setErrors(apiErrors);
+              toast.error("Des erreurs dans votre formulaire");
             }
         }
     };
 
     return ( 
         <>
-    <div className="container">
+{loading && <TableLoader />}
+    {!loading && ( <div className="container">
         <section className="col-md-7 bg-light shadow rounded container my-5 sectionForm">
         {!editing && <h2 className="py-4 px-5 text-center titreForm">Création d'une facture</h2> || <h2 className="py-4 px-5 text-center titreForm">Modification d'une facture</h2> }
          <form onSubmit={handleSubmit}>
@@ -140,7 +151,7 @@ const InvoicePage = ({history, match}) => {
          </form>
          </section>
         </div>
-
+    )}
     </>
      );
 }
