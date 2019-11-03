@@ -1,6 +1,7 @@
 import React, {useState, useContext} from 'react';
 import AuthAPI from '../services/authAPI';
 import AuthContext from '../contexts/AuthContext';
+import Field from '../components/forms/Field';
 
 const LoginPage = ({history}) => {
 
@@ -40,15 +41,22 @@ const LoginPage = ({history}) => {
         <h2 className="py-4 px-5 text-center titreForm">Connexion</h2>
 
          <form onSubmit={handleSubmit}>
-             <div className="form-group pl-3 pt-3">
-                 <label htmlFor="username">Adress email</label>
-                    <input value={credentials.username} onChange={handleChange} type="email" placeholder="Adresse email de connexion" className={"form-control" + (error && " is-invalid")} name="username" id="username"/>
-                   {error && <p className="invalid-feedback">{error}</p>}
-            </div>
-             <div className="form-group pl-3">
-                 <label htmlFor="password">Mot de passe</label>
-                    <input value={credentials.password} onChange={handleChange} type="password" placeholder="Mot de passe" className="form-control" name="password" id="password"/>
-            </div>
+             <Field label="Adress email" 
+                    name="username" 
+                    value={credentials.username} 
+                    onChange={handleChange} 
+                    placeholder="Adresse email de connexion" 
+                    id="username" 
+                    type="email"
+                    error={error} />
+            
+            <Field label="Mot de passe" 
+                    name="password" 
+                    value={credentials.password}
+                    type="password"
+                    onChange={handleChange}
+                    id="password" 
+                    error="" />
 
              <div className="form-group text-center"><button type="submit" className="btn btn-success">Je me connecte</button></div>
          </form>

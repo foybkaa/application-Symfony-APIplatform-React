@@ -9,6 +9,9 @@ import HomePage from './pages/HomePage';
 import InvoicesPage from './pages/InvoicesPage';
 import LoginPage from './pages/LoginPage';
 import AuthAPI from './services/authAPI';
+import CustomerPage from './pages/CustomerPage';
+import InvoicePage from './pages/InvoicePage';
+import RegisterPage from './pages/RegisterPage';
 
 
 require('../css/app.css');
@@ -31,7 +34,10 @@ const NavbarWithRouter = withRouter(Navbar);
                 <main className="container pt-5">
                     <Switch>
                         <Route path="/login" component={LoginPage}/>
+                        <Route path="/register" component={RegisterPage}/>
+                        <PrivateRoute path="/invoices/:id" component={InvoicePage} />
                         <PrivateRoute path="/invoices" component={InvoicesPage} />
+                        <PrivateRoute path="/customers/:id" component={CustomerPage} />
                         <PrivateRoute path="/customers" component={CustomersPage} />
                         <Route path="/" component={HomePage} />
                     </Switch>
