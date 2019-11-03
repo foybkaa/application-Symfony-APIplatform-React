@@ -67,7 +67,7 @@ const CustomerPage = ({match, history}) => {
                 toast.success("La modification a bien été prise en compte")
             }else{
                 await CustomersAPI.create(customer);
-                toast.success("Le client a bieb été créé !")
+                toast.success("Le client a bien été créé !")
                 history.replace("/customers");
         }
             

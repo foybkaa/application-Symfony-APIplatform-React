@@ -23,7 +23,6 @@ const STATUS_LABELS = {
 
 const InvoicesPage = props => {
 
-
 const [invoices, setInvoices] = useState([]);
 const [currentPage, setCurrentPage] = useState(1);
 const [search, setSearch] = useState("");
