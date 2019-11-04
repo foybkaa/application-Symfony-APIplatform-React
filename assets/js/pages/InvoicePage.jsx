@@ -33,15 +33,16 @@ const InvoicePage = ({history, match}) => {
             const data = await CustomersAPI.findAll();
             setCustomers(data);
             setLoading(false);
+
             if(!invoice.customer) setInvoice({ ...invoice, customer: data[0].id });
         } catch(error) {
             toast.error("Impossible de charger les clients");
             history.replace('/customers');
         }
-    }
+    };
 
     // Recupération d'une facture 
-    const fetchInvoice = async () => {
+    const fetchInvoice = async id => {
         try {
             const { amount, status, customer } = await InvoicesAPI.find(id);
             setInvoice({amount, status, customer: customer.id});
@@ -74,14 +75,15 @@ const InvoicePage = ({history, match}) => {
     // Gestion de la soumission du formulaire
     const handleSubmit = async (event) => {
         event.preventDefault();
-        try{
 
+        try{
             if(editing){
+                setErrors({});
                 await InvoicesAPI.update(id, invoice);
                 toast.success("Modification réussi !")
             }else{
                 await InvoicesAPI.create(invoice);
-                toast.success("Création de votre facture réussi !");
+                toast.success("Création de votre facture réussi !")
             history.replace("/invoices");
             }
         } catch({response}){ 

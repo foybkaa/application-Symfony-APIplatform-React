@@ -8,13 +8,11 @@ import TableLoader from "../components/loaders/TableLoader";
 
 
 const STATUS_CLASSES = {
-
     PAID: "success",
     SENT: "primary",
     CANCELLED: "danger"
 }
 const STATUS_LABELS = {
-
     PAID: "Payée",
     SENT: "Envoyée",
     CANCELLED: "Annulée"

@@ -30,7 +30,7 @@ const LoginPage = ({history}) => {
           setError("");
           setIsAuthenticated(true);
           toast.success("Vous êtes désormais connecté");
-          history.replace("/customers");
+          history.replace("/");
         } catch(error){
             setError("Informations incorrect");
             toast.error("Une erreur est survenue");

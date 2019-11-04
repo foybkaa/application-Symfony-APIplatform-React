@@ -18,6 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 require('../css/app.css');
 
+
 AuthAPI.setup();
 
 const App = () => {

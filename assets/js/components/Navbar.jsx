@@ -4,6 +4,8 @@ import { NavLink } from "react-router-dom";
 import AuthContext from '../contexts/AuthContext';
 import { toast } from 'react-toastify';
 
+
+
 const Navbar = ({history}) => {
   const { isAuthenticated, setIsAuthenticated} = useContext(AuthContext);
 
@@ -16,7 +18,7 @@ const Navbar = ({history}) => {
     return ( 
     
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-    <NavLink className="navbar-brand" to="/">Younes BKB</NavLink>
+    <NavLink className="navbar-brand" to="/">Accueil</NavLink>
     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
       <span className="navbar-toggler-icon"></span>
     </button>
